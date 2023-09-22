@@ -18,14 +18,22 @@ async function main() {
   // console.log(`ERC20Life Token deployed to ${erc20Life.address}`);
 
   // Deployment: SingleSwapToken
-  const SingleSwapToken = await hre.ethers.getContractFactory(
-    "SingleSwapToken"
-  );
-  const singleSwapToken = await SingleSwapToken.deploy();
+  // const SingleSwapToken = await hre.ethers.getContractFactory(
+  //   "SingleSwapToken"
+  // );
+  // const singleSwapToken = await SingleSwapToken.deploy();
 
-  await singleSwapToken.deployed();
+  // await singleSwapToken.deployed();
 
-  console.log(`SingleSwapToken Token deployed to ${singleSwapToken.address}`);
+  // console.log(`SingleSwapToken Token deployed to ${singleSwapToken.address}`);
+
+  // Deployment: SingleSwapToken
+  const StoreUserData = await hre.ethers.getContractFactory("StoreUserData");
+  const storeUserData = await StoreUserData.deploy();
+
+  await storeUserData.deployed();
+
+  console.log(`StoreUserData Token deployed to ${storeUserData.address}`);
 
   // Deployment: SwapMultiHop
   // const SwapMultiHop = await hre.ethers.getContractFactory("SwapMultiHop");
