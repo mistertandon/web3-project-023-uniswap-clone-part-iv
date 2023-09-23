@@ -13,6 +13,8 @@ import Toggle from "./Toggle";
 import { TokenList, TokenListPortal } from "./TokenList";
 import Token from "./Token";
 import TokenGrid from "./TokenGrid";
+import PoolAdd from "./PoolAdd";
+import PoolConnect from "./PoolConnect";
 
 export {
   HeroSection,
@@ -28,4 +30,6 @@ export {
   TokenList,
   TokenListPortal,
   TokenGrid,
+  PoolAdd,
+  PoolConnect,
 };
