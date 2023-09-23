@@ -2,7 +2,7 @@
 pragma >=0.7.0 < 0.9.0;
 pragma abicoder v2;
 
-contract StoreUserData{
+contract UserStorageData{
 
  struct TransactionStruck{
     address caller;

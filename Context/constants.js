@@ -20,6 +20,10 @@ export const SwapMultiHopABI = swapMultiHop.abi;
 export const IWETHAddress = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
 export const IWETHABI = IWETH.abi;
 
+// StoreUserData contract
+export const UserStorageDataAddress = "";
+export const UserStorageDataABI = "";
+
 // BooToken Token deployed to 0xbFD3c8A956AFB7a9754C951D03C9aDdA7EC5d638
 // ERC20Life Token deployed to 0x38F6F2caE52217101D7CA2a5eC040014b4164E6C
 // SingleSwapToken Token deployed to 0xc075BC0f734EFE6ceD866324fc2A9DBe1065CBB1

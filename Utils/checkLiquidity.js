@@ -90,7 +90,7 @@ async function getPoolData(poolContract, tokenAddress1, tokenAddress2) {
   };
 }
 
-const getLiquidityData = async (poolAddress, tokenAddress1, tokenAddress2) => {
+export const getLiquidityData = async (poolAddress, tokenAddress1, tokenAddress2) => {
   const web3modal = await new Web3Modal();
   const connection = await web3modal.connect();
   const provider = new ethers.providers.Web3Modal(connection);

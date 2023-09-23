@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, Fragment, useId } from "react";
 
 const TokenGrid = ({ tokens, headerListRef }) => {
   console.log("tokens: ", tokens);
@@ -46,17 +46,17 @@ const TokenGrid = ({ tokens, headerListRef }) => {
       <article className="max-w-[1440px] mx-[auto] grid grid-cols-12 grid-flow-row gap-4">
         {headerList.map((header) => {
           return (
-            <>
+            <Fragment key={useId()}>
               <div className={headerObj[header]["className"]}>
                 {headerObj[header].displayName || "N/A"}
               </div>
-            </>
+            </Fragment>
           );
         })}
         {tokens.map(({ image, name, symbol, price, change, tvl, volume }) => {
           console.log(headerObj["image"]["className"]);
           return (
-            <>
+            <Fragment key={useId()}>
               <div className={headerObj["image"]["className"]}>{image}</div>
               <div className={headerObj["name"]["className"]}>{name}</div>
               <div className={headerObj["symbol"]["className"]}>{symbol}</div>
@@ -64,7 +64,7 @@ const TokenGrid = ({ tokens, headerListRef }) => {
               <div className={headerObj["change"]["className"]}>{change}</div>
               <div className={headerObj["tvl"]["className"]}>{tvl}</div>
               <div className={headerObj["volume"]["className"]}>{volume}</div>
-            </>
+            </Fragment>
           );
         })}
       </article>

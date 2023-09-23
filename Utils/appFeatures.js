@@ -12,6 +12,8 @@ import {
   SwapMultiHopABI,
   IWETHAddress,
   IWETHABI,
+  UserStorageDataAddress,
+  UserStorageDataABI,
 } from "./../Context/constants";
 
 // Check if wallet is connected or not
@@ -188,6 +190,34 @@ export const connectingWithDaiToken = async () => {
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
     const contract = fetchDaiTokenContract(signer);
+
+    return contract;
+  } catch (error) {
+    console.log("An error occurred", error);
+  }
+};
+
+/**
+ * This function is used to fetch UserStorageData contract
+ *
+ * @param {} signerOrProvider
+ * @returns
+ */
+export const fetchUserStorageDataContract = (signerOrProvider) =>
+  new ethers.Contract(
+    UserStorageDataAddress,
+    UserStorageDataABI,
+    signerOrProvider
+  );
+
+// Connect with UserStorageData contract
+export const connectingWithUserStorageDataContract = async () => {
+  try {
+    const web3modal = new Web3Modal();
+    const connection = await web3modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+    const contract = fetchUserStorageDataContract(signer);
 
     return contract;
   } catch (error) {
