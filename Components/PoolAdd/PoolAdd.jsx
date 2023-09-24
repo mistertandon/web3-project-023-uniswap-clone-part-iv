@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useId } from "react";
 import { Token, SearchToken } from "./../index";
 import {
   CloseCircleSharp,
@@ -9,14 +9,7 @@ import {
   ArrowDownSharp,
 } from "react-ionicons";
 
-{
-  /* <AddCircleSharp
-  color={'#00000'} 
-  title="Add"
-  height="250px"
-  width="250px"
-/> */
-}
+import { CheckmarkCircleSharp } from "react-ionicons";
 
 const PoolAdd = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -44,7 +37,9 @@ const PoolAdd = () => {
   ];
 
   const minPriceDecrease = () => {
-    setMinPrice((val) => val - 1);
+    if (minPrice > 0) {
+      setMinPrice((val) => val - 1);
+    }
   };
 
   const minPriceIncrease = () => {
@@ -52,12 +47,15 @@ const PoolAdd = () => {
   };
 
   const maxPriceDecrease = () => {
-    setMaxPrice((val) => val - 1);
+    if (maxPrice > 0) {
+      setMaxPrice((val) => val - 1);
+    }
   };
 
   const maxPriceIncrease = () => {
     setMaxPrice((val) => val + 1);
   };
+
   return (
     <article>
       <section className="max-w-[1220px] mx-auto grid grid-cols-12 grid-flow-row gap-4">
@@ -79,6 +77,10 @@ const PoolAdd = () => {
                 title={"Close"}
                 height="1.25rem"
                 width="1.25rem"
+                onClick={() => {
+                  console.log("close");
+                  setOpenModal(true);
+                }}
               />
             </div>
           </div>
@@ -98,7 +100,13 @@ const PoolAdd = () => {
               />
             </div>
           </div>
-          <div className="col-start-7 col-end-13 flex flex-row justify-start gap-4">
+          <div
+            className="col-start-7 col-end-13 flex flex-row justify-start gap-4"
+            onClick={() => {
+              console.log("93");
+              setOpenTokenModal(true);
+            }}
+          >
             <div>Image</div>
             <div>Token B</div>
             <div>
@@ -112,10 +120,48 @@ const PoolAdd = () => {
           </div>
           <div className="col-span-full grid grid-cols-12 gap-4">
             <div className="col-start-1 col-end-8">Fee tier</div>
-            <div className="col-start-8 col-end-12">Show</div>
+            {openFee ? (
+              <div
+                className="col-start-8 col-end-12 row-start-1 row-end-3"
+                onClick={() => setOpenFee(false)}
+              >
+                Hide
+              </div>
+            ) : (
+              <div
+                className="col-start-8 col-end-12 row-start-1 row-end-3"
+                onClick={() => setOpenFee(true)}
+              >
+                Show
+              </div>
+            )}
+
             <div className="col-start-1 col-end-8">
               The % you will earn in fees
             </div>
+            {openFee &&
+              feePairs.map(({ fee, info, number }, idx) => (
+                <div
+                  className="col-span-3 grid grid-cols-2 grid-flow-row"
+                  key={`${idx}`}
+                >
+                  <div className="col-start-1 col-end-2">{fee}</div>
+                  <div className="col-start-2 col-end-3">
+                    {idx === active && (
+                      <CheckmarkCircleSharp
+                        color={"#ffffff"}
+                        title={info}
+                        height="1rem"
+                        width="1rem"
+                      />
+                    )}
+                  </div>
+                  <div className="col-span-full">{info}</div>
+                  <div className="col-span-full">
+                    <button onClick={() => setActive(idx)}>{number}</button>
+                  </div>
+                </div>
+              ))}
           </div>
           <div className="col-span-full">Deposit amount</div>
           <div className="col-span-full grid grid-cols-12 gap-4">
@@ -147,37 +193,41 @@ const PoolAdd = () => {
             <div className="col-start-1 col-end-7">Min Price</div>
             <div className="col-start-7 col-end-13">Max Price</div>
             <div className="col-start-1 col-end-3">
-              <AddCircleSharp
-                color={"#ffffff"}
-                title="Add"
-                height="1.5rem"
-                width="1.5rem"
-              />
-            </div>
-            <div className="col-start-3 col-end-5">VALUE</div>
-            <div className="col-start-5 col-end-7">
               <RemoveCircleSharp
                 color={"#ffffff"}
                 title="Subtract"
                 height="1.5rem"
                 width="1.5rem"
+                onClick={() => minPriceDecrease()}
+              />
+            </div>
+            <div className="col-start-3 col-end-5">{minPrice}</div>
+            <div className="col-start-5 col-end-7">
+              <AddCircleSharp
+                color={"#ffffff"}
+                title="Add"
+                height="1.5rem"
+                width="1.5rem"
+                onClick={() => minPriceIncrease()}
               />
             </div>
             <div className="col-start-7 col-end-9">
-              <AddCircleSharp
-                color={"#ffffff"}
-                title="Add"
-                height="1.5rem"
-                width="1.5rem"
-              />
-            </div>
-            <div className="col-start-9 col-end-11">VALUE</div>
-            <div className="col-start-11 col-end-13">
               <RemoveCircleSharp
                 color={"#ffffff"}
                 title="Subtract"
                 height="1.5rem"
                 width="1.5rem"
+                onClick={() => maxPriceDecrease()}
+              />
+            </div>
+            <div className="col-start-9 col-end-11">{maxPrice}</div>
+            <div className="col-start-11 col-end-13">
+              <AddCircleSharp
+                color={"#ffffff"}
+                title="Add"
+                height="1.5rem"
+                width="1.5rem"
+                onClick={() => maxPriceIncrease()}
               />
             </div>
             <div className="col-span-full">Full Range</div>
