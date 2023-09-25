@@ -18,7 +18,7 @@ import {
 
 import { CheckmarkCircleSharp } from "react-ionicons";
 
-const PoolAdd = () => {
+const PoolAdd = ({setClosePool}) => {
   const {
     connectWallet,
     account,
@@ -28,6 +28,7 @@ const PoolAdd = () => {
     dai,
     getPrice,
     swapUpdatePrice,
+    createLiquidityAndPool,
   } = useContext(SwapTokenContext);
 
   const [visibilityStatus, dispatch] = useTokenVisibilityReducer();
@@ -114,7 +115,7 @@ const PoolAdd = () => {
                 width="1.25rem"
                 onClick={() => {
                   console.log("close");
-                  setOpenModal(true);
+                  setClosePool(false);
                 }}
               />
             </div>

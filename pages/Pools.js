@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import { PoolConnect, PoolAdd } from "./../Components";
 
 const Pools = () => {
+  const [closePool, setClosePool] = useState(false);
   return (
     <>
-      <PoolAdd />
-      {/* <PoolConnect /> */}
+      {closePool ? (
+        <PoolAdd setClosePool={setClosePool} />
+      ) : (
+        <PoolConnect setClosePool={setClosePool} />
+      )}
     </>
   );
 };
