@@ -17,8 +17,9 @@ import {
 } from "react-ionicons";
 
 import { CheckmarkCircleSharp } from "react-ionicons";
+import { addLiquidityExternal } from "@/Utils/addLiquidity";
 
-const PoolAdd = ({setClosePool}) => {
+const PoolAdd = ({ setClosePool }) => {
   const {
     connectWallet,
     account,
@@ -31,6 +32,13 @@ const PoolAdd = ({setClosePool}) => {
     createLiquidityAndPool,
   } = useContext(SwapTokenContext);
 
+  // ============================================================
+  const [fee, setFee] = useState(0);
+  const [slippage, setSlippage] = useState(25);
+  const [deadline, setDeadline] = useState(10);
+  const [tokenAmountOne, setTokenAmountOne] = useState(0);
+  const [tokenAmountTwo, setTokenAmountTwo] = useState(0);
+  // ============================================================
   const [visibilityStatus, dispatch] = useTokenVisibilityReducer();
   const [tokenOne, setTokenOne] = useState({
     name: "",
@@ -59,16 +67,19 @@ const PoolAdd = ({setClosePool}) => {
       fee: "0.05%",
       info: "Best for stable pairs",
       number: "0% Select",
+      feeSystem: 500,
     },
     {
-      fee: "0.03%",
+      fee: "0.3%",
       info: "Best for stable pairs",
       number: "0% Select",
+      feeSystem: 3000,
     },
     {
       fee: "1%",
       info: "Best for stable pairs",
       number: "0% Select",
+      feeSystem: 10000,
     },
   ];
 
@@ -102,11 +113,20 @@ const PoolAdd = ({setClosePool}) => {
               title="Back"
               height="1rem"
               width="4rem"
+              onClick={() => {
+                console.log("close");
+                setClosePool(false);
+              }}
             />
           </div>
           <div className="">Add Liquidity</div>
           <div className="flex flex-row justify-between gap-4">
-            <div className="">Clear All</div>
+            <div className="">
+              {tokenOne?.name || ""}
+              {tokenOne?.tokenBalance?.slice(0, 7) || ""}
+              {tokenTwo?.name || ""}
+              {tokenTwo?.tokenBalance?.slice(0, 7) || ""}
+            </div>
             <div className="">
               <CloseCircleSharp
                 color={"#ffffff"}
@@ -114,8 +134,7 @@ const PoolAdd = ({setClosePool}) => {
                 height="1.25rem"
                 width="1.25rem"
                 onClick={() => {
-                  console.log("close");
-                  setClosePool(false);
+                  dispatch(TOGGLE_TOKEN_COMPONENT);
                 }}
               />
             </div>
@@ -133,7 +152,7 @@ const PoolAdd = ({setClosePool}) => {
             }}
           >
             <div>Image</div>
-            <div>Token A</div>
+            <div>{tokenOne.name || "ETH"}</div>
             <div>
               <ArrowDownSharp
                 color={"#ffffff"}
@@ -152,7 +171,7 @@ const PoolAdd = ({setClosePool}) => {
             }}
           >
             <div>Image</div>
-            <div>Token B</div>
+            <div>{tokenTwo.name || "Select"}</div>
             <div>
               <ArrowDownSharp
                 color={"#ffffff"}
@@ -184,7 +203,7 @@ const PoolAdd = ({setClosePool}) => {
               The % you will earn in fees
             </div>
             {openFee &&
-              feePairs.map(({ fee, info, number }, idx) => (
+              feePairs.map(({ fee, info, number, feeSystem }, idx) => (
                 <div
                   className="col-span-3 grid grid-cols-2 grid-flow-row"
                   key={`${idx}`}
@@ -202,23 +221,50 @@ const PoolAdd = ({setClosePool}) => {
                   </div>
                   <div className="col-span-full">{info}</div>
                   <div className="col-span-full">
-                    <button onClick={() => setActive(idx)}>{number}</button>
+                    <button onClick={() => (setActive(idx), setFee(feeSystem))}>
+                      {number}
+                    </button>
                   </div>
                 </div>
               ))}
           </div>
           <div className="col-span-full">Deposit amount</div>
           <div className="col-span-full grid grid-cols-12 gap-4">
-            <div className="col-start-1 col-end-5">100000</div>
-            <div className="col-start-5 col-end-9">T Symbol A</div>
-            <div className="col-start-9 col-end-13">T Name A</div>
-            <div className="col-start-5 col-end-13">T Balance A</div>
+            <div className="col-start-1 col-end-5">
+              <input
+                type="number"
+                placeholder={tokenOne?.tokenBalance?.slice(0, 7) || ""}
+                onChange={(e) => setTokenAmountOne(e.target.value)}
+              />
+            </div>
+            <div className="col-start-5 col-end-9">
+              {tokenOne?.symbol || "ETH"}
+            </div>
+            <div className="col-start-9 col-end-13">
+              {tokenOne?.name || "N/A"}
+            </div>
+            <div className="col-start-5 col-end-13">
+              {tokenOne?.balance || "N/A"}
+            </div>
           </div>
           <div className="col-span-full grid grid-cols-12 gap-4">
-            <div className="col-start-1 col-end-5">100000</div>
-            <div className="col-start-5 col-end-9">T Symbol B</div>
-            <div className="col-start-9 col-end-13">T Name B</div>
-            <div className="col-start-5 col-end-13">T Balance B</div>
+            <div className="col-start-1 col-end-5">
+              {" "}
+              <input
+                type="number"
+                placeholder={tokenTwo?.tokenBalance?.slice(0, 7) || ""}
+                onChange={(e) => setTokenAmountTwo(e.target.value)}
+              />
+            </div>
+            <div className="col-start-5 col-end-9">
+              {tokenTwo?.symbol || "SYB N/A"}
+            </div>
+            <div className="col-start-9 col-end-13">
+              {tokenTwo?.name || "N/A"}
+            </div>
+            <div className="col-start-5 col-end-13">
+              {tokenTwo?.balance || "N/A"}
+            </div>
           </div>
         </div>
         <div className="col-start-7 col-end-13 grid grid-cols-12 gap-4">
@@ -237,32 +283,34 @@ const PoolAdd = ({setClosePool}) => {
             <div className="col-start-1 col-end-7">Min Price</div>
             <div className="col-start-7 col-end-13">Max Price</div>
             <div className="col-start-1 col-end-3">
-              <RemoveCircleSharp
-                color={"#ffffff"}
-                title="Subtract"
-                height="1.5rem"
-                width="1.5rem"
-                onClick={() => minPriceDecrease()}
+              <input
+                type="number"
+                placeholder="0.000"
+                min="0.00"
+                step="0.001"
+                onChange={(e) => setMinPrice(e.target.value)}
               />
+              {tokenOne.name || "ETH"} per {tokenTwo.name || "Select"}
             </div>
             <div className="col-start-3 col-end-5">{minPrice}</div>
             <div className="col-start-5 col-end-7">
-              <AddCircleSharp
+              {/* <AddCircleSharp
                 color={"#ffffff"}
                 title="Add"
                 height="1.5rem"
                 width="1.5rem"
                 onClick={() => minPriceIncrease()}
-              />
+              /> */}
             </div>
             <div className="col-start-7 col-end-9">
-              <RemoveCircleSharp
-                color={"#ffffff"}
-                title="Subtract"
-                height="1.5rem"
-                width="1.5rem"
-                onClick={() => maxPriceDecrease()}
+              <input
+                type="number"
+                placeholder="0.000"
+                min="0.00"
+                step="0.001"
+                onChange={(e) => setMaxPrice(e.target.value)}
               />
+              {tokenOne.name || "ETH"} per {tokenTwo.name || "Select"}
             </div>
             <div className="col-start-9 col-end-11">{maxPrice}</div>
             <div className="col-start-11 col-end-13">
@@ -274,11 +322,37 @@ const PoolAdd = ({setClosePool}) => {
                 onClick={() => maxPriceIncrease()}
               />
             </div>
-            <div className="col-span-full">Full Range</div>
-            <div className="col-span-full">Enter a amount</div>
+            <div className="col-span-full">Full Range Delete it</div>
+            <div className="col-span-full">
+              <button
+                onClick={() =>
+                  createLiquidityAndPool({
+                    tokenAmount0: tokenOne.address,
+                    tokenAmount1: tokenTwo.address,
+                    fee,
+                    tokenPrice1: minPrice,
+                    tokenPrice2: maxPrice,
+                    slippage,
+                    deadline,
+                    tokenAmountOne,
+                    tokenAmountTwo,
+                  })
+                }
+              >
+                Add Liquidity
+              </button>
+            </div>
           </div>
         </div>
-        {visibilityStatus["TokenComponent"] && <Token dispatch={dispatch} />}
+        {visibilityStatus["TokenComponent"] && (
+          <Token
+            dispatch={dispatch}
+            slippage={slippage}
+            setSlippage={setSlippage}
+            deadline={deadline}
+            setDeadline={setDeadline}
+          />
+        )}
         {visibilityStatus["tokenAComponent"] && (
           <SearchToken
             tokens={setTokenOne}

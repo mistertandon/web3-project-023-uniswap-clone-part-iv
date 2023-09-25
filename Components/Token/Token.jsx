@@ -2,7 +2,13 @@ import Image from "next/image";
 import images from "./../../assets";
 import { TOGGLE_SWAP_COMPONENT, Toggle } from "./../index";
 
-const Token = ({ dispatch }) => {
+const Token = ({
+  dispatch,
+  slippage = "",
+  setSlippage = "",
+  deadline = "",
+  setDeadline = "",
+}) => {
   return (
     <section className="grid grid-flow-row grid-cols-12 col-span-full">
       <div className="col-start-4 col-end-7">Title</div>
@@ -28,10 +34,7 @@ const Token = ({ dispatch }) => {
       </div>
       <div className="col-start-4 col-end-9">
         <button>Auto</button>
-        <input
-          type="text"
-          placeholder="0.10%"
-        />
+        <input type="text" placeholder="0.10%" />
       </div>
       <div className="col-start-4 col-end-9">
         Slippage tolerance
@@ -43,20 +46,13 @@ const Token = ({ dispatch }) => {
         />
       </div>
       <div className="col-start-4 col-end-9">
-        <input
-          type="text"
-          placeholder="0.10%"
-        />
+        <input type="text" placeholder="0.10%" />
         <button>Minutes</button>
       </div>
       <h2 className="col-start-4 col-end-9">Interface setting</h2>
       <div className="col-start-4 col-end-9">
         Transaction Deadline
-        <Toggle
-          parentWidth={50}
-          parentHeight={25}
-          toggleBtnBgColor="#1AFFFF"
-        />
+        <Toggle parentWidth={50} parentHeight={25} toggleBtnBgColor="#1AFFFF" />
       </div>
     </section>
   );

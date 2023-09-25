@@ -120,14 +120,16 @@ const SwapTokenContextProvider = ({ children }) => {
       const userLiquidity = await userStorageData.getAllTransactions();
       console.log("userLiquidity", userLiquidity);
 
+      let userLiquidityTemp = [];
       userLiquidity.map(async (el, i) => {
         const liquidityData = await getLiquidityData(
           el.poolAddress,
           el.tokenAddress0,
           el.tokenAddress1
         );
-        getAllLiquidity.push(liquidityData);
+        userLiquidityTemp.push(liquidityData);
       });
+      setGetAllLiquidity(userLiquidityTemp);
       // DAI Balance
       // const daiContract = await connectingWithDaiToken();
       // const daiBalance = await daiContract.balanceOf(userAccount);
