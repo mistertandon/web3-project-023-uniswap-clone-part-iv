@@ -1,4 +1,11 @@
-import React, { useState, useId } from "react";
+import React, { useState, useContext } from "react";
+import SwapTokenContext from "./../../Context/SwapContext";
+import {
+  TOGGLE_TOKEN_COMPONENT,
+  TOGGLE_SEARCH_TOKEN_A,
+  TOGGLE_SEARCH_TOKEN_B,
+} from "./../../reducers/tokenVisibilityReducer.constant";
+import { useTokenVisibilityReducer } from "./../../reducers";
 import { Token, SearchToken } from "./../index";
 import {
   CloseCircleSharp,
@@ -12,6 +19,34 @@ import {
 import { CheckmarkCircleSharp } from "react-ionicons";
 
 const PoolAdd = () => {
+  const {
+    connectWallet,
+    account,
+    singleSwapToken,
+    tokenData,
+    ether,
+    dai,
+    getPrice,
+    swapUpdatePrice,
+  } = useContext(SwapTokenContext);
+
+  const [visibilityStatus, dispatch] = useTokenVisibilityReducer();
+  const [tokenOne, setTokenOne] = useState({
+    name: "",
+    symbol: "",
+    image: "",
+    balance: "",
+    address: "",
+  });
+
+  const [tokenTwo, setTokenTwo] = useState({
+    name: "",
+    symbol: "",
+    image: "",
+    balance: "",
+    address: "",
+  });
+
   const [openModal, setOpenModal] = useState(false);
   const [openTokenModal, setOpenTokenModal] = useState(false);
   const [active, setActive] = useState(1);
@@ -88,7 +123,14 @@ const PoolAdd = () => {
 
         <div className="col-start-1 col-end-7 grid grid-cols-12 gap-4">
           <div className="col-span-full">Select pair</div>
-          <div className="col-start-1 col-end-7 flex flex-row justify-start gap-4">
+          <div
+            className="col-start-1 col-end-7 flex flex-row justify-start gap-4"
+            onClick={() => {
+              console.log("93");
+              setOpenTokenModal(true);
+              dispatch(TOGGLE_SEARCH_TOKEN_A);
+            }}
+          >
             <div>Image</div>
             <div>Token A</div>
             <div>
@@ -105,6 +147,7 @@ const PoolAdd = () => {
             onClick={() => {
               console.log("93");
               setOpenTokenModal(true);
+              dispatch(TOGGLE_SEARCH_TOKEN_B);
             }}
           >
             <div>Image</div>
@@ -234,6 +277,21 @@ const PoolAdd = () => {
             <div className="col-span-full">Enter a amount</div>
           </div>
         </div>
+        {visibilityStatus["TokenComponent"] && <Token dispatch={dispatch} />}
+        {visibilityStatus["tokenAComponent"] && (
+          <SearchToken
+            tokens={setTokenOne}
+            tokenData={tokenData}
+            dispatch={dispatch}
+          />
+        )}
+        {visibilityStatus["tokenBComponent"] && (
+          <SearchToken
+            tokens={setTokenTwo}
+            tokenData={tokenData}
+            dispatch={dispatch}
+          />
+        )}
       </section>
     </article>
   );

@@ -1,11 +1,12 @@
 import { useState, useReducer, useContext } from "react";
 import Image from "next/image";
 import images from "./../../assets";
+import { useTokenVisibilityReducer } from "./../../reducers";
 import {
   TOGGLE_TOKEN_COMPONENT,
   TOGGLE_SEARCH_TOKEN_A,
   TOGGLE_SEARCH_TOKEN_B,
-} from "./HeroSection.constant";
+} from "./../../reducers/tokenVisibilityReducer.constant";
 
 import SwapTokenContext from "./../../Context/SwapContext";
 import { SearchToken, Token } from "./../index";
@@ -25,55 +26,66 @@ function debounce(normalFunc, delay) {
   };
 }
 
-const componentVisibility = (state, action) => {
-  let _state;
-  switch (action) {
-    case TOGGLE_TOKEN_COMPONENT:
-      _state = {
-        swapComponent: false,
-        TokenComponent: true,
-        tokenAComponent: false,
-        tokenBComponent: false,
-      };
-      break;
+// const componentVisibility = (state, action) => {
+//   let _state;
+//   switch (action) {
+//     case TOGGLE_TOKEN_COMPONENT:
+//       _state = {
+//         swapComponent: false,
+//         TokenComponent: true,
+//         tokenAComponent: false,
+//         tokenBComponent: false,
+//       };
+//       break;
 
-    case TOGGLE_SEARCH_TOKEN_A:
-      _state = {
-        swapComponent: false,
-        TokenComponent: false,
-        tokenAComponent: true,
-        tokenBComponent: false,
-      };
-      break;
+//     case TOGGLE_SEARCH_TOKEN_A:
+//       _state = {
+//         swapComponent: false,
+//         TokenComponent: false,
+//         tokenAComponent: true,
+//         tokenBComponent: false,
+//       };
+//       break;
 
-    case TOGGLE_SEARCH_TOKEN_B:
-      _state = {
-        swapComponent: false,
-        TokenComponent: false,
-        tokenAComponent: false,
-        tokenBComponent: true,
-      };
-      break;
+//     case TOGGLE_SEARCH_TOKEN_B:
+//       _state = {
+//         swapComponent: false,
+//         TokenComponent: false,
+//         tokenAComponent: false,
+//         tokenBComponent: true,
+//       };
+//       break;
 
-    default:
-      _state = {
-        swapComponent: true,
-        TokenComponent: false,
-        tokenAComponent: false,
-        tokenBComponent: false,
-      };
-  }
+//     default:
+//       _state = {
+//         swapComponent: true,
+//         TokenComponent: false,
+//         tokenAComponent: false,
+//         tokenBComponent: false,
+//       };
+//   }
 
-  return _state;
-};
+//   return _state;
+// };
 
+// const useTokenVisibility = () => {
+//   const [visibilityStatus, dispatch] = useReducer(componentVisibility, {
+//     swapComponent: true,
+//     TokenComponent: false,
+//     tokenAComponent: false,
+//     tokenBComponent: false,
+//   });
+
+//   return [visibilityStatus, dispatch];
+// };
 const HeroSection = () => {
-  const [visibilityStatus, dispatch] = useReducer(componentVisibility, {
-    swapComponent: true,
-    TokenComponent: false,
-    tokenAComponent: false,
-    tokenBComponent: false,
-  });
+  const [visibilityStatus, dispatch] = useTokenVisibilityReducer();
+  // const [visibilityStatus, dispatch] = useReducer(componentVisibility, {
+  //   swapComponent: true,
+  //   TokenComponent: false,
+  //   tokenAComponent: false,
+  //   tokenBComponent: false,
+  // });
 
   const {
     connectWallet,
