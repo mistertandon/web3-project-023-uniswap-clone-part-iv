@@ -6,10 +6,10 @@ const bn = require("bignumber.js");
 bn.config({ EXPONENTIAL_AT: 999999, DECIMAL_PLACES: 40 });
 
 // factory address
-const UNISWAP_V3_FACTORY_ADDRESS = "";
+const UNISWAP_V3_FACTORY_ADDRESS = "0x38c76A767d45Fc390160449948aF80569E2C4217";
 
 // nonfungiblePositionMangerAddress
-const NON_FUNGIBLE_POSITION_MANAGER_ADDRESS = "";
+const NON_FUNGIBLE_POSITION_MANAGER_ADDRESS = "0xa8d297D643a11cE83b432e87eEBce6bee0fd2bAb";
 
 const artifacts = {
   UniswapV3Factory: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
@@ -66,7 +66,7 @@ export const connectingWithPoolContract = async (
   const transaction = await createPoolContract
     .connect(signer)
     .createAndInitializePoolIfNecessary(address1, address2, fee, price, {
-      gasLimit: 30000000,
+      gasLimit: 5000000,
     });
   console.log("transaction", transaction);
   await transaction.wait();

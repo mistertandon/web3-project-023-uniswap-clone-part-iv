@@ -1,3 +1,5 @@
+// npx hardhat run scripts/deploy.js --network localhost
+
 const hre = require("hardhat");
 
 async function main() {
@@ -28,12 +30,12 @@ async function main() {
   // console.log(`SingleSwapToken Token deployed to ${singleSwapToken.address}`);
 
   // Deployment: SingleSwapToken
-  const StoreUserData = await hre.ethers.getContractFactory("StoreUserData");
+  const StoreUserData = await hre.ethers.getContractFactory("UserStorageData");
   const storeUserData = await StoreUserData.deploy();
 
   await storeUserData.deployed();
 
-  console.log(`StoreUserData Token deployed to ${storeUserData.address}`);
+  console.log(`UserStorageDataAddress = '${storeUserData.address}'`);
 
   // Deployment: SwapMultiHop
   // const SwapMultiHop = await hre.ethers.getContractFactory("SwapMultiHop");

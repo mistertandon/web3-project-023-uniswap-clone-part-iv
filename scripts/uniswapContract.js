@@ -1,3 +1,4 @@
+// npx hardhat run scripts/uniswapContract.js --network localhost
 const { Contract, ContractFactory, utils, BigNumber } = require("ethers");
 const WETH9 = require("./../Context/WETH9.json");
 
@@ -115,19 +116,30 @@ async function main() {
     nonfungibleTokenPositionDescriptor.address
   );
 
-  console.log("WETH address", weth.address);
-  console.log("factory address", factory.address);
-  console.log("swapRouter address", swapRouter.address);
-  console.log("nftDescriptor address", nftDescriptor.address);
+  console.log("WETHAddress = ", weth.address);
+  console.log("factoryAddress = ", factory.address);
+  console.log("swapRouterAddress = ", swapRouter.address);
+  console.log("nftDescriptorAddress = ", nftDescriptor.address);
   console.log(
-    "nonfungibleTokenPositionDescriptor address",
+    "nonfungibleTokenPositionDescriptorAddress = ",
     nonfungibleTokenPositionDescriptor.address
   );
   console.log(
-    "nonfungiblePositionManger address",
+    "nonfungiblePositionMangerAddress = ",
     nonfungiblePositionManger.address
   );
 }
+
+/**
+ * 
+ * 
+WETHAddress =  0x721d8077771Ebf9B931733986d619aceea412a1C
+factoryAddress =  0x38c76A767d45Fc390160449948aF80569E2C4217
+swapRouterAddress =  0xDC57724Ea354ec925BaFfCA0cCf8A1248a8E5CF1
+nftDescriptorAddress =  0xfc073209b7936A771F77F63D42019a3a93311869
+nonfungibleTokenPositionDescriptorAddress =  0xb4e9A5BC64DC07f890367F72941403EEd7faDCbB
+nonfungiblePositionManagerAddress =  0xa8d297D643a11cE83b432e87eEBce6bee0fd2bAb  
+ */
 
 main()
   .then(() => process.exit(0))

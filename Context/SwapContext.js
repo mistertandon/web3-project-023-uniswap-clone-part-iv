@@ -46,19 +46,24 @@ const SwapTokenContextProvider = ({ children }) => {
   // SwapMultiHop Token deployed to 0x837a41023CF81234f89F956C94D676918b4791c1
 
   // const addToken = [BooTokenAddress, LifeTokenAddress, IWETHAddress];
+  // const addToken = [
+  //   "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  //   "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+  //   "0x9534ad65fb398E27Ac8F4251dAe1780B989D136e",
+  //   "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+  //   "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
+  //   "0x4d224452801ACEd8B2F0aebE155379bb5D594381",
+  //   "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+  //   "0x163f8C2467924be0ae7B5347228CABF260318753",
+  //   "0xd1d2Eb1B1e90B638588728b4130137D262C87cae",
+  //   "0xaea46A60368A7bD060eec7DF8CBa43b7EF41Ad85",
+  //   "0x4a220E6096B25EADb88358cb44068A3248254675",
+  //   "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
+  // ];
   const addToken = [
-    "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-    "0x9534ad65fb398E27Ac8F4251dAe1780B989D136e",
-    "0x514910771AF9Ca656af840dff83E8264EcF986CA",
-    "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
-    "0x4d224452801ACEd8B2F0aebE155379bb5D594381",
-    "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
-    "0x163f8C2467924be0ae7B5347228CABF260318753",
-    "0xd1d2Eb1B1e90B638588728b4130137D262C87cae",
-    "0xaea46A60368A7bD060eec7DF8CBa43b7EF41Ad85",
-    "0x4a220E6096B25EADb88358cb44068A3248254675",
-    "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
+    "0x6Da3D07a6BF01F02fB41c02984a49B5d9Aa6ea92",
+    "0x68d2Ecd85bDEbfFd075Fb6D87fFD829AD025DD5C",
+    "0x9D3999af03458c11C78F7e6C0fAE712b455D4e33",
   ];
 
   const fetchingData = async () => {
@@ -129,6 +134,7 @@ const SwapTokenContextProvider = ({ children }) => {
         );
         userLiquidityTemp.push(liquidityData);
       });
+      console.log("userLiquidityTemp", userLiquidityTemp);
       setGetAllLiquidity(userLiquidityTemp);
       // DAI Balance
       // const daiContract = await connectingWithDaiToken();
@@ -162,10 +168,19 @@ const SwapTokenContextProvider = ({ children }) => {
     slippage,
     deadline,
     tokenAmountOne,
-    tokenAmountTw0,
+    tokenAmountTwo,
   }) => {
     try {
-      // CREATE POOL
+      console.log("tokenAddress0: ", tokenAddress0);
+      console.log("tokenAddress1: ", tokenAddress1);
+      console.log("fee: ", fee);
+      console.log("tokenPrice1: ", tokenPrice1);
+      console.log("tokenPrice2: ", tokenPrice2);
+      console.log("slippage: ", slippage);
+      console.log("deadline: ", deadline);
+      console.log("tokenAmountOne: ", tokenAmountOne);
+      console.log("tokenAmountTwo: ", tokenAmountTwo);
+
       const createPool = await connectingWithPoolContract(
         tokenAddress0,
         tokenAddress1,
@@ -176,17 +191,17 @@ const SwapTokenContextProvider = ({ children }) => {
           gasLimit: 500000,
         }
       );
-
+      console.log("createPool: ", createPool);
       const poolAddress = createPool.poolAddress;
-
+      console.log("poolAddress: ", poolAddress);
       // CREATE LIQUIDITY
       const info = await addLiquidityExternal(
         tokenAddress0,
         tokenAddress1,
-        poolAddress,
+        createPool,
         fee,
         tokenAmountOne,
-        tokenAmountTw0
+        tokenAmountTwo
       );
 
       console.log("Info", info);
@@ -194,11 +209,13 @@ const SwapTokenContextProvider = ({ children }) => {
       // ADD DATA
 
       const userStorageData = await connectingWithUserStorageDataContract();
+      console.log("userStorageData", userStorageData);
       const userLiquidity = await userStorageData.addToBlockchain(
-        poolAddress,
+        createPool,
         tokenAddress0,
         tokenAddress1
       );
+      console.log("userLiquidity", userLiquidity);
     } catch (error) {
       console.log("error", error);
     }

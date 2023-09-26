@@ -1,17 +1,17 @@
 // npx hardhat run scripts/deployPool.js --network localhost
 
-const WETHAddress = "0xf18774574148852771c2631d7d06E2A6c8b44fCA";
-const factoryAddress = "0x9f62EE65a8395824Ee0821eF2Dc4C947a23F0f25";
-const swapRouterAddress = "0x20BBE62B175134D21b10C157498b663F048672bA";
-const nftDescriptorAddress = "0x3AeEBbEe7CE00B11cB202d6D0F38D696A3f4Ff8e";
+const WETHAddress = "0x721d8077771Ebf9B931733986d619aceea412a1C";
+const factoryAddress = "0x38c76A767d45Fc390160449948aF80569E2C4217";
+const swapRouterAddress = "0xDC57724Ea354ec925BaFfCA0cCf8A1248a8E5CF1";
+const nftDescriptorAddress = "0xfc073209b7936A771F77F63D42019a3a93311869";
 const nonfungibleTokenPositionDescriptorAddress =
-  "0xB2ff9d5e60d68A52cea3cd041b32f1390A880365";
-const nonfungiblePositionMangerAddress =
-  "0xa68E430060f74F9821D2dC9A9E2CE3aF7d842EBe";
+  "0xb4e9A5BC64DC07f890367F72941403EEd7faDCbB";
+const nonfungiblePositionManagerAddress =
+  "0xa8d297D643a11cE83b432e87eEBce6bee0fd2bAb";
 
-const parveshAddress = "0x8B64968F69E669faCc86FA3484FD946f1bBE7c91";
-const payalAddress = "0x9A86494Ba45eE1f9EEed9cFC0894f6C5d13a1F0b";
-const jiyanshiAddress = "0xC0340c0831Aa40A0791cF8C3Ab4287EB0a9705d8";
+const parveshAddress = "0x6Da3D07a6BF01F02fB41c02984a49B5d9Aa6ea92";
+const payalAddress = "0x68d2Ecd85bDEbfFd075Fb6D87fFD829AD025DD5C";
+const jiyanshiAddress = "0x9D3999af03458c11C78F7e6C0fAE712b455D4e33";
 
 const artifacts = {
   UniswapV3Factory: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
@@ -42,7 +42,7 @@ function encodePriceSqrt(reserve1, reserve0) {
 }
 
 const nonfungiblePositionmanager = new Contract(
-  nonfungiblePositionMangerAddress,
+  nonfungiblePositionManagerAddress,
   artifacts.NonfungiblePositionManager.abi,
   provider
 );

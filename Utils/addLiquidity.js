@@ -3,14 +3,14 @@ import { Contract, ethers } from "ethers";
 import { Token } from "@uniswap/sdk-core";
 import { Pool, Position, nearestUsableTick } from "@uniswap/v3-sdk";
 
-const WETHAddress = "0xf18774574148852771c2631d7d06E2A6c8b44fCA";
-const factoryAddress = "0x9f62EE65a8395824Ee0821eF2Dc4C947a23F0f25";
-const swapRouterAddress = "0x20BBE62B175134D21b10C157498b663F048672bA";
-const nftDescriptorAddress = "0x3AeEBbEe7CE00B11cB202d6D0F38D696A3f4Ff8e";
+const WETHAddress = "0x721d8077771Ebf9B931733986d619aceea412a1C";
+const factoryAddress = "0x38c76A767d45Fc390160449948aF80569E2C4217";
+const swapRouterAddress = "0xDC57724Ea354ec925BaFfCA0cCf8A1248a8E5CF1";
+const nftDescriptorAddress = "0xfc073209b7936A771F77F63D42019a3a93311869";
 const nonfungibleTokenPositionDescriptorAddress =
-  "0xB2ff9d5e60d68A52cea3cd041b32f1390A880365";
+  "0xb4e9A5BC64DC07f890367F72941403EEd7faDCbB";
 const nonfungiblePositionManagerAddress =
-  "0xa68E430060f74F9821D2dC9A9E2CE3aF7d842EBe";
+  "0xa8d297D643a11cE83b432e87eEBce6bee0fd2bAb";
 
 const artifacts = {
   NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
@@ -158,7 +158,7 @@ export const addLiquidityExternal = async (
     recipient: accountAddress,
     deadline: Math.floor(Date.now / 1000) + 60 * 10,
   };
-
+  console.log("params", params);
   const nonfungiblePositionManager = new Contract(
     nonfungiblePositionManagerAddress,
     artifacts.NonfungiblePositionManager.abi,
@@ -167,7 +167,7 @@ export const addLiquidityExternal = async (
   console.log("nonfungiblePositionManager", nonfungiblePositionManager);
 
   const tx = await nonfungiblePositionManager.connect(signer).mint(params, {
-    gasLimit: "1000000",
+    gasLimit: 1000000,
   });
   console.log("tx", tx);
 

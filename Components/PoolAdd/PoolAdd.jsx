@@ -233,7 +233,7 @@ const PoolAdd = ({ setClosePool }) => {
             <div className="col-start-1 col-end-5">
               <input
                 type="number"
-                placeholder={tokenOne?.tokenBalance?.slice(0, 7) || ""}
+                placeholder={tokenOne?.balance?.slice(0, 7) || ""}
                 onChange={(e) => setTokenAmountOne(e.target.value)}
               />
             </div>
@@ -252,7 +252,7 @@ const PoolAdd = ({ setClosePool }) => {
               {" "}
               <input
                 type="number"
-                placeholder={tokenTwo?.tokenBalance?.slice(0, 7) || ""}
+                placeholder={tokenTwo?.balance?.slice(0, 7) || ""}
                 onChange={(e) => setTokenAmountTwo(e.target.value)}
               />
             </div>
@@ -327,9 +327,9 @@ const PoolAdd = ({ setClosePool }) => {
               <button
                 onClick={() =>
                   createLiquidityAndPool({
-                    tokenAmount0: tokenOne.address,
-                    tokenAmount1: tokenTwo.address,
-                    fee,
+                    tokenAddress0: tokenOne.address,
+                    tokenAddress1: tokenTwo.address,
+                    fee: fee,
                     tokenPrice1: minPrice,
                     tokenPrice2: maxPrice,
                     slippage,

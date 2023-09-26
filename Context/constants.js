@@ -2,6 +2,7 @@ import booToken from "./BooToken.json";
 import lifeToken from "./ERC20Life.json";
 import singleSwapToken from "./SingleSwapToken.json";
 import swapMultiHop from "./SwapMultiHop.json";
+import userStorageData from "./UserStorageData.json";
 import IWETH from "./IWETH.json";
 
 export const BooTokenAddress = "0xbFD3c8A956AFB7a9754C951D03C9aDdA7EC5d638";
@@ -21,8 +22,8 @@ export const IWETHAddress = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
 export const IWETHABI = IWETH.abi;
 
 // StoreUserData contract
-export const UserStorageDataAddress = "";
-export const UserStorageDataABI = "";
+export const UserStorageDataAddress = "0xc4Fe39a1588807CfF8d8897050c39F065eBAb0B8";
+export const UserStorageDataABI = userStorageData.abi;
 
 // BooToken Token deployed to 0xbFD3c8A956AFB7a9754C951D03C9aDdA7EC5d638
 // ERC20Life Token deployed to 0x38F6F2caE52217101D7CA2a5eC040014b4164E6C

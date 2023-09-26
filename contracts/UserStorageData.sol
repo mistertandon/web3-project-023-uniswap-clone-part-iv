@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma >=0.7.0 < 0.9.0;
+pragma solidity >=0.7.0 < 0.9.0;
 pragma abicoder v2;
 
 contract UserStorageData{
@@ -13,8 +13,8 @@ contract UserStorageData{
 
  TransactionStruck[] public transactions;
 
- function addToBlockchain(address poolAddress, address tokenAddress0, address tokenAddress1){
-    transactions.push(TransactionStruck(msg.sender, poolAddress, tokenAddress0, tokenAddress1))
+ function addToBlockchain(address poolAddress, address tokenAddress0, address tokenAddress1) public {
+    transactions.push(TransactionStruck(msg.sender, poolAddress, tokenAddress0, tokenAddress1));
  }
 
  function getAllTransactions() public view returns(TransactionStruck[] memory){
