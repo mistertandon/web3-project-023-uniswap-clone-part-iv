@@ -3,6 +3,8 @@ const Toggle = ({
   parentWidth,
   parentHeight,
   toggleBtnBgColor = "#00B8B8",
+  onCheckedHandler = () => {},
+  onUncheckedHandler = () => {},
 }) => {
   const toggleBtnSelector = useId();
   const [checkboxCheckedStatus, setCheckboxCheckedStatus] = useState(false);
@@ -14,11 +16,13 @@ const Toggle = ({
     setCheckboxCheckedStatus(checkboxCheckedRef.current.checked);
 
     if (checkboxCheckedRef.current.checked) {
+      onCheckedHandler();
       elem.setAttribute(
         "style",
         `transform:translateX(100%); background-color: ${toggleBtnBgColor}`
       );
     } else {
+      onUncheckedHandler();
       elem.setAttribute(
         "style",
         `transform:translateX(0%); background-color: ${toggleBtnBgColor};`
